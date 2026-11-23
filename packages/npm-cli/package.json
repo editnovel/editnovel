@@ -1,0 +1,27 @@
+{
+  "name": "editnovel",
+  "version": "0.1.0",
+  "description": "Local-first Rust CLI and MCP Server for converting PDFs and EPUBs into clean EPUB 3 and omnibus volumes with staged JSON feedback loops.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/editnovel/editnovel.git"
+  },
+  "bin": {
+    "editnovel": "bin/editnovel.js"
+  },
+  "files": [
+    "bin/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "optionalDependencies": {
+    "@editnovel/cli-darwin-arm64": "0.1.0",
+    "@editnovel/cli-darwin-x64": "0.1.0",
+    "@editnovel/cli-linux-arm64-gnu": "0.1.0",
+    "@editnovel/cli-linux-x64-gnu": "0.1.0",
+    "@editnovel/cli-win32-arm64-msvc": "0.1.0",
+    "@editnovel/cli-win32-x64-msvc": "0.1.0"
+  }
+}
