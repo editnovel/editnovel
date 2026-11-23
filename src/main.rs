@@ -188,7 +188,7 @@ fn parse_args() -> CliArgs {
 }
 
 fn extract_volume_number(filename: &str) -> usize {
-    engine::config::infer_series_and_volume(filename).1
+    editnovel_engine::config::infer_series_and_volume(filename).1
 }
 
 fn format_diff_snippet(full_para: &str, orig: &str, repl: &str) -> String {
