@@ -1,0 +1,20 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.editnovel/editnovel",
+  "description": "Local-first Rust CLI and MCP server to convert PDFs and EPUBs into validated EPUB 3 and omnibus volumes with staged JSON feedback loops.",
+  "repository": {
+    "url": "https://github.com/editnovel/editnovel",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "editnovel",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
