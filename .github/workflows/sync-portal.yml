@@ -32,10 +32,13 @@ jobs:
         with:
           files: cli-manifest.json
       - name: Notify editnovel/portal
-        if: env.PORTAL_DISPATCH_TOKEN != ''
         env:
           PORTAL_DISPATCH_TOKEN: ${{ secrets.PORTAL_DISPATCH_TOKEN }}
         run: |
+          if [ -z "${PORTAL_DISPATCH_TOKEN}" ]; then
+            echo "PORTAL_DISPATCH_TOKEN secret not configured; skipping portal dispatch."
+            exit 0
+          fi
           PAYLOAD=$(jq -c '{event_type: "editnovel-manifest-updated", client_payload: {manifest: .}}' cli-manifest.json)
           curl -fsSL -X POST \
             -H "Accept: application/vnd.github+json" \
