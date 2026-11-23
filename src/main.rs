@@ -1,4 +1,5 @@
 pub mod cli;
+pub mod docs;
 pub mod mcp;
 pub mod workspace;
 

@@ -323,21 +323,35 @@ fn unix_timestamp() -> u64 {
         .unwrap_or(0)
 }
 
+pub const SUPPORTED_PROFILES: &[&str] = &[
+    "en-light-novel",
+    "en-litrpg",
+    "en-fiction",
+    "es-editorial",
+];
+
+pub const SUPPORTED_LANGS: &[&str] = &["auto", "es", "en"];
+
 pub fn validate_profile(profile: &str) -> Result<String> {
-    match profile {
-        "en-light-novel" | "en-litrpg" | "en-fiction" | "es-editorial" => Ok(profile.to_string()),
-        _ => bail!(
-            "Unsupported profile '{}'. Expected one of: en-light-novel, en-litrpg, en-fiction, es-editorial",
-            profile
-        ),
+    if SUPPORTED_PROFILES.contains(&profile) {
+        return Ok(profile.to_string());
     }
+    bail!(
+        "Unsupported profile '{}'. Expected one of: {}",
+        profile,
+        SUPPORTED_PROFILES.join(", ")
+    );
 }
 
 pub fn validate_lang(lang: &str) -> Result<String> {
-    match lang {
-        "auto" | "es" | "en" => Ok(lang.to_string()),
-        _ => bail!("Unsupported language '{}'. Expected one of: auto, es, en", lang),
+    if SUPPORTED_LANGS.contains(&lang) {
+        return Ok(lang.to_string());
     }
+    bail!(
+        "Unsupported language '{}'. Expected one of: {}",
+        lang,
+        SUPPORTED_LANGS.join(", ")
+    );
 }
 
 fn resolve_language(profile: &str, lang: &str) -> String {

@@ -1,3 +1,4 @@
+use crate::docs;
 use crate::mcp;
 use crate::workspace::{
     self, AuditTextResponse, BuildResponse, GlossaryIgnoreResponse, IngestResponse,
@@ -79,6 +80,10 @@ pub enum Commands {
         epub_path: PathBuf,
     },
     Mcp,
+    Docs {
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
     AuditBench {
         #[arg(long, short = 'd')]
         dir: PathBuf,
@@ -349,6 +354,10 @@ pub async fn run_cli() -> Result<()> {
         }
         Commands::Mcp => {
             mcp::run_mcp_server().await?;
+        }
+        Commands::Docs { out } => {
+            let manifest = docs::write_manifest_if_requested(out.as_deref())?;
+            emit_output(&manifest, json_flag)?;
         }
         Commands::AuditBench { dir, all } => {
             run_audit_bench(&dir, all, json_flag)?;
