@@ -1,8 +1,9 @@
 use crate::cli::Cli;
 use crate::mcp;
-use crate::workspace::{SUPPORTED_LANGS, SUPPORTED_PROFILES};
+use crate::workspace::SUPPORTED_PROFILES;
 use anyhow::Result;
 use clap::{ArgAction, CommandFactory};
+use editnovel_engine::contracts::{ARCHIVE_SCHEMA_VERSION, SUPPORTED_LANGUAGE_CODES};
 use serde::Serialize;
 use serde_json::Value;
 use std::fs;
@@ -47,6 +48,8 @@ pub struct CliManifest {
     pub schema_version: u32,
     pub name: String,
     pub version: String,
+    pub engine_version: String,
+    pub archive_schema_version: u32,
     pub description: String,
     pub repository: String,
     pub skills_install_command: String,
@@ -152,6 +155,8 @@ pub fn build_cli_manifest() -> Result<CliManifest> {
         schema_version: 1,
         name: env!("CARGO_PKG_NAME").to_string(),
         version: env!("CARGO_PKG_VERSION").to_string(),
+        engine_version: editnovel_engine::engine_version().to_string(),
+        archive_schema_version: ARCHIVE_SCHEMA_VERSION,
         description: env!("CARGO_PKG_DESCRIPTION").to_string(),
         repository,
         skills_install_command: "npx skills add editnovel/editnovel".to_string(),
@@ -165,7 +170,7 @@ pub fn build_cli_manifest() -> Result<CliManifest> {
             }
         }),
         supported_profiles: SUPPORTED_PROFILES.iter().map(|s| (*s).to_string()).collect(),
-        supported_langs: SUPPORTED_LANGS.iter().map(|s| (*s).to_string()).collect(),
+        supported_langs: SUPPORTED_LANGUAGE_CODES.iter().map(|s| (*s).to_string()).collect(),
         commands,
         mcp_tools,
         skill_markdown: strip_frontmatter(SKILL_MD_RAW),
@@ -194,7 +199,7 @@ mod tests {
         let manifest = build_cli_manifest().expect("manifest should build");
         assert!(!manifest.version.is_empty());
         assert_eq!(manifest.supported_profiles, SUPPORTED_PROFILES);
-        assert_eq!(manifest.supported_langs, SUPPORTED_LANGS);
+        assert_eq!(manifest.supported_langs, SUPPORTED_LANGUAGE_CODES);
 
         let cmd_names: Vec<&str> = manifest.commands.iter().map(|c| c.name.as_str()).collect();
         for expected in ["ingest", "inspect", "structure", "media", "audit", "glossary", "rules", "build", "verify", "mcp"] {

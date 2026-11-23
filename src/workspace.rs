@@ -1,6 +1,7 @@
 use anyhow::{Context, Result, anyhow, bail};
 use editnovel_engine::cleaner::TextCleaner;
 use editnovel_engine::config::infer_series_and_volume;
+use editnovel_engine::contracts::{SUPPORTED_LANGUAGE_CODES, resolve_preset_id};
 use editnovel_engine::epub_builder::{EpubBuilder, detect_synopsis_from_sections, html_escape, sanitize_html_for_xhtml};
 use editnovel_engine::models::{ContentItem, ContentItemPayload, ExtractedImage, Footnote, Paragraph, Section, VolumeInfo};
 use editnovel_engine::pdf_extractor::ParsedPdfDocument;
@@ -330,10 +331,8 @@ pub const SUPPORTED_PROFILES: &[&str] = &[
     "es-editorial",
 ];
 
-pub const SUPPORTED_LANGS: &[&str] = &["auto", "es", "en"];
-
 pub fn validate_profile(profile: &str) -> Result<String> {
-    if SUPPORTED_PROFILES.contains(&profile) {
+    if SUPPORTED_PROFILES.contains(&profile) && resolve_preset_id(profile).is_some() {
         return Ok(profile.to_string());
     }
     bail!(
@@ -344,13 +343,13 @@ pub fn validate_profile(profile: &str) -> Result<String> {
 }
 
 pub fn validate_lang(lang: &str) -> Result<String> {
-    if SUPPORTED_LANGS.contains(&lang) {
+    if SUPPORTED_LANGUAGE_CODES.contains(&lang) {
         return Ok(lang.to_string());
     }
     bail!(
         "Unsupported language '{}'. Expected one of: {}",
         lang,
-        SUPPORTED_LANGS.join(", ")
+        SUPPORTED_LANGUAGE_CODES.join(", ")
     );
 }
 

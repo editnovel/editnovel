@@ -11,7 +11,7 @@ path = "src/main.rs"
 [dependencies]
 anyhow = "1.0.105"
 clap = { version = "4.6.9", features = ["derive"] }
-editnovel-engine = { git = "https://github.com/editnovel/engine", tag = "v0.2.0", version = "0.1.0", features = ["parallel"] }
+editnovel-engine = { git = "https://github.com/editnovel/engine", tag = "v0.3.1", version = "0.1.0", features = ["parallel"] }
 image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "webp"] }
 lopdf = "0.45.0"
 quick-xml = "0.42.0"
