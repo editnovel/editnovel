@@ -715,11 +715,17 @@ dependencies = [
  "anyhow",
  "clap",
  "editnovel-engine",
+ "image 0.25.10",
+ "lopdf",
+ "quick-xml",
  "rayon",
+ "rc-zip",
+ "regex",
  "rmcp",
  "serde",
  "serde_json",
  "tokio",
+ "zip",
 ]
 
 [[package]]
@@ -1840,6 +1846,7 @@ dependencies = [
  "chrono",
  "crc32fast",
  "encoding_rs",
+ "miniz_oxide 0.8.9",
  "oem_cp",
  "oval",
  "ownable",
